@@ -1,0 +1,38 @@
+@(
+  table: models.AccessibleTable,
+  allColumns: Seq[models.AccessibleColumn],
+  visibleColumns: Seq[models.AccessibleColumn],
+  rows: Seq[models.Row],
+  filters: Seq[models.Filter],
+  sorts: Seq[models.Sort],
+  page: Int,
+  pageSize: Int,
+  total: Int
+)(
+  implicit context: BaseContext[_]
+)
+
+@main {
+  <script src='@routes.Assets.versioned("components/database-table.js")'></script>
+  <div id="app"></div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      render: function(html) {
+        return html(DatabaseTable.default, {
+          props: {
+            table: parse("@Base64.encodeJsValue(table.toJson)"),
+            allColumns: parse("@Base64.encodeSeqJsValue(allColumns.map(_.toJson))"),
+            visibleColumns: parse("@Base64.encodeSeqJsValue(visibleColumns.map(_.toJson))"),
+            rows: parse("@Base64.encodeSeqJsValue(rows.map(_.toJson(force = false)))"),
+            page: parse("@Base64.encodeInt(page)"),
+            pageSize: parse("@Base64.encodeInt(pageSize)"),
+            total: parse("@Base64.encodeInt(total)"),
+            filters: parse("@Base64.encodeFilters(filters)"),
+            sorts: parse("@Base64.encodeSorts(sorts)")
+          }
+        });
+      }
+    })
+  </script>
+}

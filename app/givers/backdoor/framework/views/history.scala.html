@@ -1,0 +1,18 @@
+@(items: Seq[models.RichHistoryEntry])(implicit context: BaseContext[_])
+
+@main {
+  <script src='@routes.Assets.versioned("components/history-table.js")'></script>
+  <div id="app"></div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      render: function(html) {
+        return html(HistoryTable.default, {
+          props: {
+            items: parse("@Base64.encodeSeqJsValue(items.map(_.toJson))")
+          }
+        });
+      }
+    })
+  </script>
+}

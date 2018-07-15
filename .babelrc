@@ -1,0 +1,23 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": [
+          "> 0.3% in SG",
+          "> 0.3% in TH",
+          "> 0.3% in MY",
+          "> 0.3% in HK",
+          "> 0.3% in VN",
+          "> 0.3% in ID",
+          "> 0.3% in IN",
+          "> 0.3% in KH",
+          "> 1%",
+          "last 2 versions",
+          "safari >= 7",
+          "ios >= 9",
+          "ie >= 9"
+        ]
+      }
+    }]
+  ]
+}

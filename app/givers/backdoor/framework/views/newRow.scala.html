@@ -1,0 +1,19 @@
+@(table: String, columns: Seq[models.Column])(implicit context: BaseContext[_])
+
+@main {
+  <script src='@routes.Assets.versioned("components/new-row.js")'></script>
+  <div id="app"></div>
+  <script>
+      var app = new Vue({
+        el: '#app',
+        render: function(html) {
+          return html(NewRow.default, {
+            props: {
+              table: parse("@Base64.encodeString(table)"),
+              columns: parse("@Base64.encodeSeqJsValue(columns.map(_.toJson))")
+            }
+          });
+        }
+      })
+  </script>
+}

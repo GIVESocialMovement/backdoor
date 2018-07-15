@@ -1,0 +1,51 @@
+@(content: Html)(implicit context: BaseContext[_])
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>@context.page.title</title>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/main.css")'>
+    <script src='@routes.Assets.versioned("javascripts/external/axios.min.js")'></script>
+
+    @if(context.config.IS_PROD) {
+      <script src='@routes.Assets.versioned("javascripts/external/vue.min.js")'></script>
+    } else {
+      <script src='@routes.Assets.versioned("javascripts/external/vue.dev.js")'></script>
+    }
+
+    <script src='@routes.Assets.versioned("javascripts/main.js")'></script>
+
+    <script>
+      XMLHttpRequest.prototype.realOpen = XMLHttpRequest.prototype.open;
+      var newOpen = function(method, url, async) {
+        this.url = url;
+        return this.realOpen(method, url, async);
+      };
+      XMLHttpRequest.prototype.open = newOpen;
+
+      XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
+      var newSend = function(data) {
+        // Some AJAX requests' urls start with `//` (e.g. helpscoutdocs.com). We need to exclude it. Otherwise,
+        // we would hit CORS condition.
+        if (this.url.startsWith('/') && !this.url.startsWith('//')) {
+          this.setRequestHeader('Csrf-Token', '@context.getCsrfToken');
+        }
+        return this.realSend(data);
+      };
+      XMLHttpRequest.prototype.send = newSend;
+    </script>
+  </head>
+  <body>
+    @context.loggedInUserOpt.map { loggedInUser =>
+      Logged in as @loggedInUser.email
+      <a href="@givers.backdoor.framework.controllers.routes.LoginController.logout">Logout</a>
+      <a href="/history">History</a>
+    }.getOrElse {
+      <a href="@givers.backdoor.framework.controllers.routes.LoginController.login(Some(context.request.uri))">Login</a>
+    }
+    <br/><br/>
+    @content
+  </body>
+</html>

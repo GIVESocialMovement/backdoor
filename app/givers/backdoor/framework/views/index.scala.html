@@ -1,0 +1,19 @@
+@(tables: Seq[models.AccessibleTable])(implicit context: BaseContext[_])
+
+@main {
+  <div id="app">
+    <span v-for="table in tables" :key="table.name">
+      <a v-if="table.canRead" :href="'/table/' + table.name">{{ table.name }}</a>
+      <span v-else>{{ table.name }}</span>
+      <br/>
+    </span>
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        tables: parse("@Base64.encodeSeqJsValue(tables.map(_.toJson))")
+      }
+    })
+  </script>
+}
