@@ -13,7 +13,7 @@ Backdoor is a database modification tool for team. Here are its highlights:
 
 Backdoor is currently used at [GIVE.asia](https://give.asia) and only supports Postgresql for now.
 
-If you are using Backdoor, please star our repo to let other newcomers know that they can trust our application. Backdoor is a database tool, and trust (and security) are the most important aspects. Thank you!
+If you are using Backdoor, please star our repo to let newcomers know that they can trust our application. Backdoor is a database tool, and trust (and security) are the most important aspects. Thank you!
 
 
 Motivation
