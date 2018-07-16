@@ -50,7 +50,7 @@ class HistoryEntryService @Inject()(
   }
 
   private[this] def hydrate(items: Seq[HistoryEntry]): Future[Seq[RichHistoryEntry]] = {
-    val fUsers = userService.getByIds(items.map(_.id).toSet)
+    val fUsers = userService.getByIds(items.map(_.userId).toSet)
 
     for {
       users <- fUsers.map { us => us.map { u => u.id -> u }.toMap }
