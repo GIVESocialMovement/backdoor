@@ -17,7 +17,7 @@ Backdoor is currently used at [GIVE.asia](https://give.asia) and only supports P
 Motivation
 -----------
 
-As a small engineering team, one of the challenges that [GIVE.asia](https://give.asia) has faced is that we often need to build an admin dashboard, which is some form of CRUD, in order to enable our team to modify data.
+As [GIVE.asia](https://give.asia) have a small engineering team, one of the challenges that we have faced is that an admin dashboard, which is some form of CRUD, is needed in order to enable our team to modify data.
 
 We've quickly realised that building an admin dashboard for a specific data model doesn't scale well. While other database tools (as listed [here](https://wiki.postgresql.org/wiki/Community_Guide_to_PostgreSQL_GUI_Tools#Postbird)) are okay, they estange non-technical users and lack of important collaboration-esque features (e.g. history and column-level access control help prevent mistakes).
 
