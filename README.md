@@ -13,12 +13,20 @@ Backdoor is a database modification tool for team. Here are its highlights:
 
 Backdoor is currently used at [GIVE.asia](https://give.asia) and only supports Postgresql for now.
 
+If you are using Backdoor, please star our repo to let other newcomers know that they can trust our application. Backdoor is a database tool, and trust is one of the most important aspects. Thank you!
+
 
 Motivation
 -----------
 
 As [GIVE.asia](https://give.asia) have a small engineering team, one of the challenges that we have faced is that an admin dashboard, which is some form of CRUD, is needed in order to enable our team to modify data.
 
-We've quickly realised that building an admin dashboard for a specific data model doesn't scale well. While other database tools (as listed [here](https://wiki.postgresql.org/wiki/Community_Guide_to_PostgreSQL_GUI_Tools#Postbird)) are okay, they estange non-technical users and lack of important collaboration-esque features (e.g. history and column-level access control help prevent mistakes).
+We've quickly realised that building multiple admin dashboards for multiple data models doesn't scale well. While other database tools (as listed [here](https://wiki.postgresql.org/wiki/Community_Guide_to_PostgreSQL_GUI_Tools#Postbird)) are okay, they estange non-technical users and lack of important collaboration-esque features (e.g. history and column-level access control help prevent mistakes).
 
-Thus, Backdoor was born.
+Thus, Backdoor was created to address this need.
+
+
+Usage
+------
+
+
