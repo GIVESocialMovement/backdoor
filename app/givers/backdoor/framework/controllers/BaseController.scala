@@ -60,7 +60,7 @@ class BaseController()(
   )(
     fn: Context[R] => Future[Result]
   ): Action[R] = Action.async(bodyParser) { implicit request =>
-    cc.userService.getUserFromCookies(request.cookies)
+    cc.userService.getRichUserFromCookies(request.cookies)
       .flatMap { userOpt =>
         implicit val context = Context(
           loggedInUserOpt = userOpt,
@@ -74,7 +74,6 @@ class BaseController()(
             case _: RequireLoginException => Ok(givers.backdoor.framework.views.html.login())
             case e: ForbiddenException => Ok(givers.backdoor.framework.views.html.forbidden(e.message))
             case e: Exception =>
-              println(e)
               if (request.acceptedTypes.exists(_.mediaSubType == "json")) {
                 BadRequest(toJson(obj(
                   "success" -> false,
@@ -101,7 +100,7 @@ class BaseController()(
     fn: AuthenticatedContext[R] => Future[Result]
   ) = async(bodyParser) { implicit context =>
     context.loggedInUserOpt.map { loggedInUser =>
-      if (!cc.accessService.hasAccess(loggedInUser)) {
+      if (!cc.accessService.hasAccess(loggedInUser.base)) {
         throw ForbiddenException("You are not allowed to access this page.")
       }
       fn(AuthenticatedContext(

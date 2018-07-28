@@ -1,5 +1,6 @@
 package givers.backdoor.framework.models
 
+import givers.backdoor.Permission
 import play.api.libs.json.Json
 import slick.jdbc.PostgresProfile.api._
 
@@ -21,6 +22,11 @@ case class User(
     )
   }
 }
+
+case class RichUser(
+  base: User,
+  permission: Permission
+)
 
 class UserTable(tag: Tag) extends Table[User](tag, "users") {
 

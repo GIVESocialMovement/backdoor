@@ -5,9 +5,9 @@
 BEGIN;
 
 CREATE TABLE "users" (
-    "id" BIGSERIAL PRIMARY KEY,
-    "email" varchar(255) NOT NULL,
-    "cookie_secret" varchar(255) NOT NULL
+  "id" BIGSERIAL PRIMARY KEY,
+  "email" varchar(255) NOT NULL,
+  "cookie_secret" varchar(255) NOT NULL
 );
 
 COMMIT;

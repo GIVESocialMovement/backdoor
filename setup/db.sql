@@ -1,7 +1,3 @@
-CREATE USER backdoor_dev_user WITH PASSWORD 'dev';
-CREATE DATABASE backdoor_dev;
-GRANT ALL PRIVILEGES ON DATABASE backdoor_dev to backdoor_dev_user;
-
 CREATE USER backdoor_test_user WITH PASSWORD 'test';
 CREATE DATABASE backdoor_test;
 GRANT ALL PRIVILEGES ON DATABASE backdoor_test to backdoor_test_user;

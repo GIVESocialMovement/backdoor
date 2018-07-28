@@ -1,6 +1,6 @@
 name := "backdoor"
 organization := "givers"
-version := "0.1.6"
+version := "0.1.7-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy)
 
@@ -44,8 +44,15 @@ excludeFilter in digest := "*.vue"
 excludeFilter in gzip := "*.vue"
 
 Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage")
-Assets / VueKeys.vuefy / VueKeys.webpackBinary := "./node_modules/.bin/webpack"
-Assets / VueKeys.vuefy / VueKeys.webpackConfig := "./webpack.config.js"
+Assets / VueKeys.vuefy / VueKeys.webpackBinary := s"${baseDirectory.value.getAbsolutePath}/node_modules/.bin/webpack"
+Assets / VueKeys.vuefy / VueKeys.webpackConfig := s"${baseDirectory.value.getAbsolutePath}/webpack.config.js"
+Assets / VueKeys.vuefy / VueKeys.nodeModulesPath := s"${baseDirectory.value.getAbsolutePath}/node_modules"
+
+//(Runtime / managedClasspath) += {
+//  println((Assets / resourceDirectories).value)
+//  println((Assets / resourceDirectory).value)
+//  (Assets / packageBin).value
+//}
 
 pipelineStages := Seq(
   digest,
@@ -73,8 +80,3 @@ packagedArtifacts in publish := {
   artifacts + (Artifact(moduleName.value, "asset", "jar", "assets") -> assets)
 }
 
-packagedArtifacts in publishM2 := {
-  val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publishLocal).value
-  val assets: java.io.File = (PlayKeys.playPackageAssets in Compile).value
-  artifacts + (Artifact(moduleName.value, "asset", "jar", "assets") -> assets)
-}

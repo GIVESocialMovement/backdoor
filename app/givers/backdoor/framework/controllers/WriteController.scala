@@ -71,7 +71,7 @@ class WriteController @Inject()(
 
     for {
       columns <- tableService.getColumns(table.base.name)
-      _ <- tableService.insert(table.base.name, getCreateMap(context.request.body, columns), context.loggedInUser)
+      _ <- tableService.insert(table.base.name, getCreateMap(context.request.body, columns), context.loggedInUser.base)
     } yield {
       Ok(toJson(obj("success" -> true)))
     }
@@ -88,7 +88,7 @@ class WriteController @Inject()(
         _ <- tableService.delete(
           table = table.base.name,
           primaryKey = BaseField.get(primaryKeyColumn, data.primaryKeyValue, false),
-          committer = context.loggedInUser
+          committer = context.loggedInUser.base
         )
       } yield {
         Ok(toJson(obj(
@@ -105,7 +105,7 @@ class WriteController @Inject()(
         column <- tableService.getColumn(table.base.name, data.column).map { colOpt =>
           val col = colOpt.getOrElse { throw new Exception(s"The column '${data.column}' doesn't exist in the table '$table'.")}
 
-          if (!accessService.getScope(context.loggedInUser, table.base, col).canWrite) {
+          if (!accessService.getScope(context.loggedInUser.base, table.base, col).canWrite) {
             throw new Exception("Forbidden")
           }
 
@@ -118,7 +118,7 @@ class WriteController @Inject()(
           table = table.base.name,
           field = BaseField.get(column, data.newValue, data.isNull),
           primaryKey = BaseField.get(primaryKeyColumn, data.primaryKeyValue, false),
-          committer = context.loggedInUser
+          committer = context.loggedInUser.base
         )
         field <- tableService.get(table.base.name, column, primaryKeyColumn, data.primaryKeyValue).map {
           _.getOrElse { throw new Exception("Impossible")}

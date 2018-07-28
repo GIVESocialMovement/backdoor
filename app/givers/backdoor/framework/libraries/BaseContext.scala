@@ -1,6 +1,6 @@
 package givers.backdoor.framework.libraries
 
-import givers.backdoor.framework.models.User
+import givers.backdoor.framework.models.RichUser
 import play.api.mvc.MessagesRequest
 import play.filters.csrf.CSRF
 
@@ -9,25 +9,25 @@ sealed abstract class BaseContext[R] {
   def config: PlayConfig
   def page: PageContext
 
-  def loggedInUserOpt: Option[User]
+  def loggedInUserOpt: Option[RichUser]
 
   def getCsrfToken = CSRF.getToken(request).map(_.value).getOrElse("")
 }
 
 case class AuthenticatedContext[R](
-  loggedInUser: User,
+  loggedInUser: RichUser,
   request: MessagesRequest[R],
   config: PlayConfig,
   page: PageContext = PageContext()
 ) extends BaseContext[R] {
   val user = loggedInUser
-  def loggedInUserOpt: Option[User] = Some(loggedInUser)
+  def loggedInUserOpt: Option[RichUser] = Some(loggedInUser)
 
   def setTitle(title: String) = this.copy(page = page.copy(title = title))
 }
 
 case class Context[R](
-  loggedInUserOpt: Option[User],
+  loggedInUserOpt: Option[RichUser],
   request: MessagesRequest[R],
   config: PlayConfig,
   page: PageContext = PageContext()

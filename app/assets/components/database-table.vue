@@ -306,7 +306,6 @@
 <style scoped lang="scss">
   .database-table {
     display: block;
-    padding: 10px;
     position: relative;
 
     .spinner {
