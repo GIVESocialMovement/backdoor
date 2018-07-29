@@ -39,9 +39,11 @@
   </head>
   <body>
     @context.loggedInUserOpt.map { loggedInUser =>
-      Logged in as @loggedInUser.email
+      Logged in as @loggedInUser.base.email
       <a href="@givers.backdoor.framework.controllers.routes.LoginController.logout">Logout</a>
-      <a href="/history">History</a>
+      @if(loggedInUser.permission.history) {
+        <a href="/history">History</a>
+      }
     }.getOrElse {
       <a href="@givers.backdoor.framework.controllers.routes.LoginController.login(Some(context.request.uri))">Login</a>
     }

@@ -35,7 +35,6 @@
 <style scoped lang="scss">
   .history-table {
     display: block;
-    padding: 10px;
     position: relative;
 
     &__table {

@@ -4,7 +4,7 @@ import java.security.MessageDigest
 
 import com.google.inject.{Inject, Singleton}
 import givers.backdoor.framework.libraries.PlayConfig
-import givers.backdoor.framework.models.{User, UserTable}
+import givers.backdoor.framework.models.{RichUser, User, UserTable}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.mvc.Cookies
 import slick.jdbc.JdbcProfile
@@ -36,6 +36,7 @@ object UserService {
 @Singleton
 class UserService @Inject()(
   val dbConfigProvider: DatabaseConfigProvider,
+  accessService: AccessService,
   config: PlayConfig
 )(implicit ec: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
 
@@ -93,4 +94,20 @@ class UserService @Inject()(
 
     resultOpt.getOrElse(Future(None))
   }
+
+  def getRichUserFromCookies(cookies: Cookies): Future[Option[RichUser]] = {
+    getUserFromCookies(cookies).flatMap { userOpt => hydrate(userOpt.toSeq) }.map(_.headOption)
+  }
+
+  private[this] def hydrate(users: Seq[User]): Future[Seq[RichUser]] = {
+    Future {
+      users.map { user =>
+        RichUser(
+          base = user,
+          permission = accessService.getPermission(user)
+        )
+      }
+    }
+  }
+
 }

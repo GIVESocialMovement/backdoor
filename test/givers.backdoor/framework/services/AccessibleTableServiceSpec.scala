@@ -1,8 +1,8 @@
 package givers.backdoor.framework.services
 
-import givers.backdoor.ComputedColumns
+import givers.backdoor.{ComputedColumns, Permission}
 import givers.backdoor.framework.libraries.{AuthenticatedContext, PageContext}
-import givers.backdoor.framework.models.{AccessibleTable, TableModel, User}
+import givers.backdoor.framework.models.{AccessibleTable, RichUser, TableModel, User}
 import helpers.BaseSpec
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -16,7 +16,7 @@ class AccessibleTableServiceSpec extends BaseSpec {
   var service: AccessibleTableService = _
 
   val context = AuthenticatedContext(
-    loggedInUser = User(1L, "email", "secret"),
+    loggedInUser = RichUser(User(1L, "email", "secret"), Permission.empty),
     request = null,
     config = config,
     page = PageContext()
@@ -40,9 +40,9 @@ class AccessibleTableServiceSpec extends BaseSpec {
       await(service.getTable("samples")(context)) should be(None)
 
       verify(tableService).getTable("samples")
-      verify(accessService).canRead(context.loggedInUser, table)
-      verify(accessService).canCreate(context.loggedInUser, table)
-      verify(accessService).canDelete(context.loggedInUser, table)
+      verify(accessService).canRead(context.loggedInUser.base, table)
+      verify(accessService).canCreate(context.loggedInUser.base, table)
+      verify(accessService).canDelete(context.loggedInUser.base, table)
     }
 
     it("has access") {
@@ -54,9 +54,9 @@ class AccessibleTableServiceSpec extends BaseSpec {
       await(service.getTable("samples")(context)) should be(Some(AccessibleTable(table, canRead = true, canCreate = false, canDelete = true)))
 
       verify(tableService).getTable("samples")
-      verify(accessService).canRead(context.loggedInUser, table)
-      verify(accessService).canCreate(context.loggedInUser, table)
-      verify(accessService).canDelete(context.loggedInUser, table)
+      verify(accessService).canRead(context.loggedInUser.base, table)
+      verify(accessService).canCreate(context.loggedInUser.base, table)
+      verify(accessService).canDelete(context.loggedInUser.base, table)
     }
   }
 
@@ -70,11 +70,11 @@ class AccessibleTableServiceSpec extends BaseSpec {
     await(service.getTables()(context)) should be(Seq(AccessibleTable(table, canRead = true, canCreate = true, canDelete = false)))
 
     verify(tableService).getTables()
-    verify(accessService).canRead(context.loggedInUser, table)
-    verify(accessService).canCreate(context.loggedInUser, table)
-    verify(accessService).canDelete(context.loggedInUser, table)
-    verify(accessService).canRead(context.loggedInUser, anotherTable)
-    verify(accessService).canCreate(context.loggedInUser, anotherTable)
-    verify(accessService).canRead(context.loggedInUser, anotherTable)
+    verify(accessService).canRead(context.loggedInUser.base, table)
+    verify(accessService).canCreate(context.loggedInUser.base, table)
+    verify(accessService).canDelete(context.loggedInUser.base, table)
+    verify(accessService).canRead(context.loggedInUser.base, anotherTable)
+    verify(accessService).canCreate(context.loggedInUser.base, anotherTable)
+    verify(accessService).canRead(context.loggedInUser.base, anotherTable)
   }
 }

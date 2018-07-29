@@ -16,13 +16,13 @@ object DevServerStart {
   def start(process: ServerProcess): ReloadableServer = {
     try {
 
-      val config = ProdServerStart.readServerConfigSettings(process)
+      val config = ProdServerStart.readServerConfigSettings(process).copy(mode = Mode.Dev)
       val pidFile = ProdServerStart.createPidFile(process, config.configuration)
 
       try {
         // Start the application
         val application: Application = {
-          val environment = Environment(config.rootDir, process.classLoader, Mode.Dev)
+          val environment = Environment(config.rootDir, process.classLoader, config.mode)
           val context = ApplicationLoader.createContext(environment)
           val loader = ApplicationLoader(context)
           loader.load(context)

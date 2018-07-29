@@ -21,9 +21,9 @@ class AccessibleTableService @Inject()(
         tableOpt.map { table =>
           AccessibleTable(
             base = table,
-            canRead = access.canRead(context.loggedInUser, table),
-            canCreate = access.canCreate(context.loggedInUser, table),
-            canDelete = access.canDelete(context.loggedInUser, table)
+            canRead = access.canRead(context.loggedInUser.base, table),
+            canCreate = access.canCreate(context.loggedInUser.base, table),
+            canDelete = access.canDelete(context.loggedInUser.base, table)
           )
         }
       }
@@ -36,9 +36,9 @@ class AccessibleTableService @Inject()(
         tables.map { table =>
           AccessibleTable(
             base = table,
-            canRead = access.canRead(context.user, table),
-            canCreate = access.canCreate(context.user, table),
-            canDelete = access.canDelete(context.user, table)
+            canRead = access.canRead(context.user.base, table),
+            canCreate = access.canCreate(context.user.base, table),
+            canDelete = access.canDelete(context.user.base, table)
           )
         }
       }
@@ -54,7 +54,7 @@ class AccessibleTableService @Inject()(
         columns.map { column =>
           AccessibleColumn(
             base = column,
-            scope = access.getScope(context.loggedInUser, table.base, column)
+            scope = access.getScope(context.loggedInUser.base, table.base, column)
           )
         }
       }

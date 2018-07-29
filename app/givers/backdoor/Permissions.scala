@@ -28,6 +28,8 @@ object Permission {
       val canWrite = false
     }
   }
+
+  val empty = Permission()
 }
 
 abstract class Permissions {
@@ -37,5 +39,6 @@ abstract class Permissions {
 case class Permission(
   create: Set[String] = Set.empty,
   delete: Set[String] = Set.empty,
-  perColumn: Map[String, Map[String, Permission.Scope.Value]] = Map.empty
+  perColumn: Map[String, Map[String, Permission.Scope.Value]] = Map.empty,
+  history: Boolean = false
 )

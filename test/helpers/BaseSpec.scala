@@ -96,16 +96,16 @@ object BaseSpec {
     import dbConfig.profile.api._
     import scala.concurrent.ExecutionContext.Implicits.global
 
-    ensureDatabase(dbConfig.db, "backdoor_target_test")
-    ensureDatabase(dbConfig.db, "backdoor_test_dummy")
-
     val dummyDb = dbConfig.profile.api.Database.forDataSource(
       ds = new slick.jdbc.DatabaseUrlDataSource {
-        url = "postgres://backdoor_test_user:test@localhost:5432/backdoor_test_dummy"
+        url = "postgres://backdoor_test_user:test@localhost:5432/postgres"
       },
       maxConnections = Some(1),
       executor = slick.util.AsyncExecutor("dummyDb", 1, 1, 1, 1)
     )
+
+    ensureDatabase(dummyDb, "backdoor_target_test")
+    ensureDatabase(dummyDb, "backdoor_test_dummy")
 
     Await.result(
       awaitable = dummyDb
@@ -113,14 +113,14 @@ object BaseSpec {
           sql"SELECT 1 FROM pg_database WHERE datname = 'backdoor_test'".as[Int]
         }
         .flatMap { items =>
-          if (items.isEmpty) {
-            dbConfig.db.run { sqlu"DROP DATABASE backdoor_test;" }
+          if (items.nonEmpty) {
+            dummyDb.run { sqlu"DROP DATABASE backdoor_test;" }
           } else {
             Future(())
           }
         }
         .flatMap { _ =>
-          dbConfig.db.run { sqlu"CREATE DATABASE bakcdoor_test;" }
+          dummyDb.run { sqlu"CREATE DATABASE backdoor_test;" }
         },
       atMost = Duration.apply(30, TimeUnit.SECONDS)
     )

@@ -2,15 +2,19 @@ package givers.backdoor.framework.services
 
 import com.google.inject.{Inject, Singleton}
 import givers.backdoor.Permission.Scope
-import givers.backdoor.Permissions
+import givers.backdoor.{Permission, Permissions}
 import givers.backdoor.framework.models.{BaseColumn, TableModel, User}
 
 @Singleton
 class AccessService @Inject()(
   permissions: Permissions
 ) {
+  def getPermission(user: User): Permission = {
+    permissions.get(user.email.toLowerCase.trim).getOrElse(Permission.empty)
+  }
+
   def hasAccess(user: User): Boolean = {
-    permissions.get(user.email.toLowerCase).isDefined
+    getPermission(user) != Permission.empty
   }
 
   private[this] def getColumns(perColumn: Map[String, Map[String, Scope.Value]], table: TableModel): Option[Map[String, Scope.Value]] = {

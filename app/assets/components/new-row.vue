@@ -91,7 +91,6 @@
 <style scoped lang="scss">
   .new-row {
     display: block;
-    padding: 10px;
     position: relative;
 
     &__fields {
