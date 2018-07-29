@@ -39,7 +39,7 @@ Requirement
 Usage
 ------
 
-The usage requires a certain degree of involvement.
+The usage requires a certain degree of involvement. Please use IntelliJ, so it's easy to modify Scala code.
 
 A full working example is in the folder `test-project`. The example also includes how to deploy to Heroku.
 
@@ -148,7 +148,7 @@ auth0.clientId="YOUR_AUTH0_CLIENT_ID"
 auth0.clientSecret="YOUR_AUTH0_CLIENT_SECRET"
 ```
 
-### Ready to run locally
+### Run
 
 After setting up all this, you can run Backdoor locally with `sbt run`.
 
