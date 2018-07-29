@@ -9,8 +9,8 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "givers" %% "backdoor" % "0.1.6",
-  "givers" %% "backdoor" % "0.1.6" classifier "assets",
+  "givers" %% "backdoor" % "0.1.7",
+  "givers" %% "backdoor" % "0.1.7" classifier "assets",
 )
 
 run / javaOptions += "-Dconfig.resource=dev.conf"
