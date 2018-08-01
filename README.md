@@ -41,39 +41,29 @@ Usage
 
 The usage requires a certain degree of involvement. Please use IntelliJ, so it's easy to modify Scala code.
 
-A full working example is in the folder `test-project`. The example also includes how to deploy to Heroku.
+A full working example is in the folder `example-project`. The example also includes how to deploy to Heroku.
 
-### build.sbt
+### project/plugins.sbt and build.sbt
 
-Your build.sbt must:
-
-* include Backdoor (and its asset jar) as dependencies
-* specify `mainClass`
-* specify the configuration file
-
-Here's an example:
+Add Backdoor as an SBT plugin in `project/plugins.sbt`:
 
 ```
-resolvers ++= Seq(
-  Resolver.bintrayRepo("givers", "maven"),
-)
-
-libraryDependencies ++= Seq(
-  "givers" %% "backdoor" % "0.1.6",
-  "givers" %% "backdoor" % "0.1.6" classifier "assets",
-)
-
-run / javaOptions += "-Dconfig.resource=dev.conf"
-run / fork := true  // Otherwise, the javaOptions above wouldn't work.
-
-mainClass in (Compile, Keys.run) := Some("givers.backdoor.DevServerStart")
+resolvers += Resolver.bintrayRepo("givers", "maven")
+addSbtPlugin("givers.backdoor" % "sbt-plugin" % "0.2.0")
 ```
+
+And enable Backdoor in `build.sbt`:
+
+```
+lazy val root = project.in(file(".")).enablePlugins(Backdoor)
+```
+
 
 ### Define permissions, computed columns, and webhooks
 
 Computed columns, webhooks, and fine-tuned permissions are the main strength of Backdoor. They allow Backdoor to replace custom-built administration dashboards.
 
-You can see the full example at `test-project/src/scala/givers/backdoor/testproject`.
+You can see the full example at `test-project/src/scala/givers/backdoor/example-project`.
 
 Minimally, it should include:
 
@@ -127,11 +117,11 @@ Minimally, the content should include:
 ```
 include "backdoor.conf"  // include Backdoor's base configuration
 
-play.modules.enabled += "givers.backdoor.testproject.Module"  // The module classpath that defines permissions, computed columns, and webhooks.
+play.modules.enabled += "exampleproject.Module"  // The module classpath that defines permissions, computed columns, and webhooks.
 
 play.evolutions.autoApply=true
 
-slick.dbs.default.db.properties.url="postgres://backdoor_test_project_dev_user:dev@localhost:5432/backdoor_test_project_dev"  // The database for Backdoor
+slick.dbs.default.db.properties.url="postgres://backdoor_example_project_dev_user:dev@localhost:5432/backdoor_example_project_dev"  // The database for Backdoor
 slick.dbs.default.db.characterEncoding="utf8"
 slick.dbs.default.db.useUnicode=true
 
@@ -141,7 +131,7 @@ play.http.secret.key="DONT_CARE"
 play.filters.cors.allowedOrigins = ["http://localhost:8000"]  # Forbid all cross-origin requests
 play.filters.hosts.allowed = ["localhost:8000"]
 
-target.databaseUrl = "postgres://backdoor_test_project_target_user:dev@localhost:5432/backdoor_test_project_target"  // The database that Backdoor manages
+target.databaseUrl = "postgres://backdoor_example_project_target_user:dev@localhost:5432/backdoor_example_project_target"  // The database that Backdoor manages
 
 auth0.domain="YOUR_AUTH0_DOMAIN"
 auth0.clientId="YOUR_AUTH0_CLIENT_ID"
@@ -152,11 +142,10 @@ auth0.clientSecret="YOUR_AUTH0_CLIENT_SECRET"
 
 After setting up all this, you can run Backdoor locally with `sbt run`.
 
-For deploying to Heroku, please take a look at `test-project`. You would need to:
+For deploying to Heroku, please take a look at `example-project`. You would need to:
 
 * Add `sbt-native-packager` and set it up with the app using `.enablePlugins(JavaAppPackaging)`
-* Specify `mainClass` for prod with `mainClass in Compile := Some("play.core.server.ProdServerStart")`
-* Specify the values of environment variables in `test-project/src/main/resources/heroku.conf`
+* Specify the values of environment variables in `example-project/src/main/resources/heroku.conf`
 
 Then, you can deploy to Heroku with `git push`.
 
@@ -168,9 +157,9 @@ Contibution
 
 ### Publish a new version
 
-1. Ensure the version in `build.sbt` is correct.
+1. Ensure the version in `framework/build.sbt` and `sbt-plugin/build.sbt` are identical and correct.
 2. Run tests with `sbt test`
 3. Publish with `sbt publish`
 4. Verify that the artifact is published correctly at https://bintray.com/givers/maven/backdoor
 
-
+To publish locally, please use `sbt publishM2` (instead of `sbt publishLocal`).
