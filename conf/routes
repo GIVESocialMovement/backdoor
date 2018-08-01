@@ -6,13 +6,11 @@ GET     /                           givers.backdoor.framework.controllers.HomeCo
 GET     /login                      givers.backdoor.framework.controllers.LoginController.login(origin: Option[String])
 GET     /logout                     givers.backdoor.framework.controllers.LoginController.logout
 GET     /login/callback             givers.backdoor.framework.controllers.LoginController.callback(code: Option[String], state: Option[String])
-GET     /table/:table               givers.backdoor.framework.controllers.HomeController.showTable(table: String, page: Int = 1)
+GET     /table/:table               givers.backdoor.framework.controllers.HomeController.showTable(table: String, page: Option[Int])
 GET     /table/:table/new           givers.backdoor.framework.controllers.WriteController.newRow(table: String)
 POST    /table/:table/create        givers.backdoor.framework.controllers.WriteController.create(table: String)
 POST    /table/:table/update        givers.backdoor.framework.controllers.WriteController.update(table: String)
 POST    /table/:table/delete        givers.backdoor.framework.controllers.WriteController.remove(table: String)
-
-GET     /table/:table/:page         givers.backdoor.framework.controllers.HomeController.showTable(table: String, page: Int)
 
 GET     /history                    givers.backdoor.framework.controllers.HistoryController.index(i: Option[Long])
 

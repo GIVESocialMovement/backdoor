@@ -14,7 +14,7 @@
       <span v-else class="database-table__summary__add-row-disabled" title="You don't have the permission to create a new row.">Add a row</span>
       ,
       page:
-      <a class="database-table__summary__page" :class="{ 'database-table__summary__page--current': (page == index) }" v-for="index in pages" :href="'/table/' + table.name + '/' + index + queryString">{{ index }}</a>
+      <a class="database-table__summary__page" :class="{ 'database-table__summary__page--current': (page == index) }" v-for="index in pages" :href="'/table/' + table.name + getQueryStringAtPage(index)">{{ index }}</a>
     </div>
     <table border="0" cellpadding="0" cellspacing="2" class="database-table__table">
       <tr>
@@ -127,9 +127,15 @@
           pages.push(i);
         }
         return pages;
-      },
-      queryString: function() {
+      }
+    },
+    methods: {
+      getQueryStringAtPage: function(page) {
         let queries = [];
+
+        if (page && page > 1) {
+          queries.push(`page=${page}`);
+        }
 
         if (this.isVisibleColumnsSpecified()) {
           let cols = [];
@@ -158,8 +164,6 @@
 
         return '?' + queries.join('&');
       },
-    },
-    methods: {
       isVisibleColumnsSpecified: function() {
         if (this.internalVisibleColumns.length == 0) { return false; }
         if (this.allColumns.length != this.internalVisibleColumns.length) { return true; }
@@ -186,7 +190,7 @@
       },
       submit: function() {
         this.loading = true;
-        window.location.href = this.queryString;
+        window.location.href = this.getQueryStringAtPage(1);
       },
       showNotice(text) {
         this.notice = text;
@@ -268,7 +272,7 @@
           Vue.set(this.internalSorts, col.name, 'desc');
         }
         this.loading = true;
-        window.location.href = this.queryString;
+        window.location.href = this.getQueryStringAtPage(this.page);
       },
       edit: function(field, row) {
         this.$refs.editPanel.open(field, row);

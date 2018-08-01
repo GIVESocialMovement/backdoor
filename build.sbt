@@ -1,6 +1,6 @@
 name := "backdoor"
 organization := "givers"
-version := "0.1.7"
+version := "0.1.8-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy)
 

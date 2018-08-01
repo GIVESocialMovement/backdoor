@@ -79,8 +79,9 @@ class HomeController @Inject()(
 
   def showTable(
     table: String,
-    page: Int
+    pageOpt: Option[Int]
   ) = asyncAuthenticatedTable(table, parse.anyContent) { table => implicit context =>
+    val page = pageOpt.getOrElse(1)
     for {
       filters <- tableService.getFilters(table, getRawFilters(context.request.queryString))
       sorts <- tableService.getSorts(table, getRawSorts(context.request.queryString))
