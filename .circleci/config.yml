@@ -20,37 +20,36 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - dependencies-v1-{{ checksum "project/plugins.sbt" }}-{{ checksum "build.sbt" }}
-          - dependencies-v1-{{ checksum "project/plugins.sbt" }}
-          - dependencies-v1
+          - dependencies-v2-{{ checksum "framework/project/plugins.sbt" }}-{{ checksum "framework/build.sbt" }}-{{ checksum "sbt-plugin/project/plugins.sbt" }}-{{ checksum "sbt-plugin/build.sbt" }}
+          - dependencies-v2
       - restore_cache:
           keys:
-          - node-modules-v1-{{ checksum "package.json" }}
-          - node-modules-v1
+          - node-modules-v2-{{ checksum "framework/package.json" }}
+          - node-modules-v2
       - restore_cache:
           keys:
-          - target-v1-{{ .Branch }}
-          - target-v1
+          - target-v2-{{ .Branch }}
+          - target-v2
 
-      - run: yarn install
-      - run: sbt coverage test coverageReport
+      - run: cd framework && yarn install
+      - run: cd framework && sbt coverage test coverageReport
+      - run: cd sbt-plugin && sbt test
+      - run: sbt coverageAggregate
       - run: bash <(curl -s https://codecov.io/bash) -Z
-      - run: mkdir -p ./target/junit && cp -R ./target/test-reports ./target/junit/test-reports
       - save_cache:
           paths:
-            - node_modules
-          key: node-modules-v1-{{ checksum "package.json" }}
+            - framework/node_modules
+          key: node-modules-v1-{{ checksum "framework/package.json" }}
       - save_cache:
           paths:
-            - target
-          key: target-v1-{{ .Branch }}
+            - framework/target
+            - sbt-plugin/target
+          key: target-v2-{{ .Branch }}
       - save_cache:
           paths:
             - ~/.m2
             - ~/.ivy2/cache
             - ~/.sbt
-          key: dependencies-v1-{{ checksum "project/plugins.sbt" }}-{{ checksum "build.sbt" }}
+          key: dependencies-v2-{{ checksum "framework/project/plugins.sbt" }}-{{ checksum "framework/build.sbt" }}-{{ checksum "sbt-plugin/project/plugins.sbt" }}-{{ checksum "sbt-plugin/build.sbt" }}
       - store_artifacts:
           path: /tmp/screenshots
-      - store_test_results:
-          path: ./target/junit
