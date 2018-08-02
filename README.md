@@ -68,7 +68,7 @@ You can see the full example at `test-project/src/scala/givers/backdoor/example-
 Minimally, it should include:
 
 ```
-package givers.backdoor.testproject
+package exampleproject
 
 import play.api.{Configuration, Environment}
 
@@ -117,11 +117,13 @@ Minimally, the content should include:
 ```
 include "backdoor.conf"  // include Backdoor's base configuration
 
-play.modules.enabled += "exampleproject.Module"  // The module classpath that defines permissions, computed columns, and webhooks.
+// The module classpath that defines permissions, computed columns, and webhooks; it's the one we specified earlier.
+play.modules.enabled += "exampleproject.Module"  
 
 play.evolutions.autoApply=true
 
-slick.dbs.default.db.properties.url="postgres://backdoor_example_project_dev_user:dev@localhost:5432/backdoor_example_project_dev"  // The database for Backdoor
+// The database that Backdoor uses for managing its internal states.
+slick.dbs.default.db.properties.url="postgres://backdoor_example_project_dev_user:dev@localhost:5432/backdoor_example_project_dev"  
 slick.dbs.default.db.characterEncoding="utf8"
 slick.dbs.default.db.useUnicode=true
 
@@ -131,7 +133,8 @@ play.http.secret.key="DONT_CARE"
 play.filters.cors.allowedOrigins = ["http://localhost:8000"]  # Forbid all cross-origin requests
 play.filters.hosts.allowed = ["localhost:8000"]
 
-target.databaseUrl = "postgres://backdoor_example_project_target_user:dev@localhost:5432/backdoor_example_project_target"  // The database that Backdoor manages
+// The database that Backdoor manages.
+target.databaseUrl = "postgres://backdoor_example_project_target_user:dev@localhost:5432/backdoor_example_project_target"  
 
 auth0.domain="YOUR_AUTH0_DOMAIN"
 auth0.clientId="YOUR_AUTH0_CLIENT_ID"
@@ -157,7 +160,8 @@ Contibution
 
 ### Publish a new version
 
-1. Ensure the version in `framework/build.sbt` and `sbt-plugin/build.sbt` are identical and correct.
+1. Ensure the version in `framework-backdoor/build.sbt` and `sbt-backdoor/build.sbt` are identical and correct.
+2. Ensure the version in `sbt-backdoor/src/main/givers/backdoor/sbtplugin/Backdoor.scala` is correct.
 2. Run tests with `sbt test`
 3. Publish with `sbt publish`
 4. Verify that the artifact is published correctly at https://bintray.com/givers/maven/backdoor
