@@ -49,7 +49,7 @@ Add Backdoor as an SBT plugin in `project/plugins.sbt`:
 
 ```
 resolvers += Resolver.bintrayRepo("givers", "maven")
-addSbtPlugin("givers.backdoor" % "sbt-plugin" % "0.2.1")
+addSbtPlugin("givers.backdoor" % "sbt-backdoor" % "0.2.1")
 ```
 
 And enable Backdoor in `build.sbt`:
