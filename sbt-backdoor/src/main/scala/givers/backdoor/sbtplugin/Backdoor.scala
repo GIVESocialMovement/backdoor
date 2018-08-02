@@ -8,9 +8,12 @@ import sbt._
 object Backdoor extends AutoPlugin {
   override def requires = PlayScala
   override def projectSettings = PlayScala.projectSettings ++ Seq(
+    Keys.resolvers ++= Seq(
+      Resolver.bintrayRepo("givers", "maven"),
+    ),
     Keys.libraryDependencies ++= Seq(
       PlayImport.guice,
-      "givers.backdoor" %% "framework" % "0.1.8-SNAPSHOT"
+      "givers.backdoor" %% "framework-backdoor" % "0.2.1"
     ),
     PlayKeys.playDefaultPort := 8000
   )

@@ -14,4 +14,4 @@ POST    /table/:table/delete        givers.backdoor.framework.controllers.WriteC
 
 GET     /history                    givers.backdoor.framework.controllers.HistoryController.index(i: Option[Long])
 
-GET     /assets/*file               controllers.Assets.versioned(path="/public/lib/framework", file: Asset)
+GET     /assets/*file               controllers.Assets.versioned(path="/public/lib/framework-backdoor", file: Asset)
