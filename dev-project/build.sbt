@@ -12,5 +12,5 @@ lazy val root = project.in(file("."))
   .dependsOn(BackdoorFramework)
   .aggregate(BackdoorFramework)
 
-lazy val BackdoorFramework = RootProject(file("../framework"))
+lazy val BackdoorFramework = RootProject(file("../framework-backdoor"))
 

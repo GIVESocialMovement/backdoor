@@ -1,7 +1,7 @@
 
-name := "framework"
+name := "framework-backdoor"
 organization := "givers.backdoor"
-version := "0.1.8-SNAPSHOT"
+version := "0.2.1"
 
 lazy val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy)
 
@@ -71,13 +71,9 @@ publishArtifact in Test := false
 pomIncludeRepository := { _ => false }
 licenses := Seq(("MIT", url("http://opensource.org/licenses/MIT")))
 
-// TODO(tanin): Use the assets from digest/gzip insteads
 mappings in (Compile, packageBin) ++= {
-  val assetFolder = target.value / "web" / "public" / "main"
-  Path
-    .allSubpaths(assetFolder)
-    .toList
+  (WebKeys.pipeline in Assets).value
     .map { case (file, path) =>
-      file -> s"public/lib/framework/$path"
+      file -> s"public/lib/framework-backdoor/$path"
     }
 }

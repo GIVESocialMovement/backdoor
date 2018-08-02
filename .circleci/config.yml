@@ -20,36 +20,36 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - dependencies-v2-{{ checksum "framework/project/plugins.sbt" }}-{{ checksum "framework/build.sbt" }}-{{ checksum "sbt-plugin/project/plugins.sbt" }}-{{ checksum "sbt-plugin/build.sbt" }}
+          - dependencies-v2-{{ checksum "framework-backdoor/project/plugins.sbt" }}-{{ checksum "framework-backdoor/build.sbt" }}-{{ checksum "sbt-backdoor/project/plugins.sbt" }}-{{ checksum "sbt-backdoor/build.sbt" }}
           - dependencies-v2
       - restore_cache:
           keys:
-          - node-modules-v2-{{ checksum "framework/package.json" }}
+          - node-modules-v2-{{ checksum "framework-backdoor/package.json" }}
           - node-modules-v2
       - restore_cache:
           keys:
           - target-v2-{{ .Branch }}
           - target-v2
 
-      - run: cd framework && yarn install
-      - run: cd framework && sbt coverage test coverageReport
-      - run: cd sbt-plugin && sbt test
+      - run: cd framework-backdoor && yarn install
+      - run: cd framework-backdoor && sbt coverage test coverageReport
+      - run: cd sbt-backdoor && sbt test
       - run: sbt coverageAggregate
       - run: bash <(curl -s https://codecov.io/bash) -Z
       - save_cache:
           paths:
             - framework/node_modules
-          key: node-modules-v1-{{ checksum "framework/package.json" }}
+          key: node-modules-v1-{{ checksum "framework-backdoor/package.json" }}
       - save_cache:
           paths:
-            - framework/target
-            - sbt-plugin/target
+            - framework-backdoor/target
+            - sbt-backdoor/target
           key: target-v2-{{ .Branch }}
       - save_cache:
           paths:
             - ~/.m2
             - ~/.ivy2/cache
             - ~/.sbt
-          key: dependencies-v2-{{ checksum "framework/project/plugins.sbt" }}-{{ checksum "framework/build.sbt" }}-{{ checksum "sbt-plugin/project/plugins.sbt" }}-{{ checksum "sbt-plugin/build.sbt" }}
+          key: dependencies-v2-{{ checksum "framework-backdoor/project/plugins.sbt" }}-{{ checksum "framework-backdoor/build.sbt" }}-{{ checksum "sbt-backdoor/project/plugins.sbt" }}-{{ checksum "sbt-backdoor/build.sbt" }}
       - store_artifacts:
           path: /tmp/screenshots
