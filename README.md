@@ -43,7 +43,7 @@ The usage requires a certain degree of involvement. Please use IntelliJ, so it's
 
 A full working example is in the folder `example-project`. The example also includes how to deploy to Heroku.
 
-### project/plugins.sbt and build.sbt
+### 1. project/plugins.sbt and build.sbt
 
 Add Backdoor as an SBT plugin in `project/plugins.sbt`:
 
@@ -59,7 +59,7 @@ lazy val root = project.in(file(".")).enablePlugins(Backdoor)
 ```
 
 
-### Define permissions, computed columns, and webhooks
+### 2. Define permissions, computed columns, and webhooks
 
 Computed columns, webhooks, and fine-tuned permissions are the main strength of Backdoor. They allow Backdoor to replace custom-built administration dashboards.
 
@@ -101,12 +101,12 @@ class Module extends play.api.inject.Module {
 }
 ```
 
-### Get Auth0 application
+### 3. Get Auth0 application
 
-Backdoor depends on [Auth0](https://auth0.com) because we don't want to build our own authentication mechanism. Plus, [Auth0](https://auth0.com) offers a generous free plan.
+Backdoor depends on [Auth0](https://auth0.com) because we don't want to build our own authentication mechanism. Plus, [Auth0](https://auth0.com) offers a generous free plan, which is up to a thousand users. 
 
 
-### Specify configuration
+### 4. Specify configuration
 
 As seen above, we point Play's configuration to `dev.conf`, so we must create the file at `src/main/resources/dev.conf`.
 
@@ -139,7 +139,7 @@ auth0.clientId="YOUR_AUTH0_CLIENT_ID"
 auth0.clientSecret="YOUR_AUTH0_CLIENT_SECRET"
 ```
 
-### Run
+### 5. Run
 
 After setting up all this, you can run Backdoor locally with `sbt run`.
 
