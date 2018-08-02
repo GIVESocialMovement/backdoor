@@ -103,9 +103,7 @@ class Module extends play.api.inject.Module {
 
 ### Get Auth0 application
 
-Backdoor depends on Auth0 because we don't want to build our own authentication mechanism.
-
-Auth0 offers a free plan up to thousands of users.
+Backdoor depends on [Auth0](https://auth0.com) because we don't want to build our own authentication mechanism. Plus, [Auth0](https://auth0.com) offers a generous free plan.
 
 
 ### Specify configuration
