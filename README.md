@@ -108,7 +108,7 @@ Backdoor depends on [Auth0](https://auth0.com) because we don't want to build ou
 
 ### 4. Specify configuration
 
-As seen above, we point Play's configuration to `dev.conf`, so we must create the file at `src/main/resources/dev.conf`.
+Create the configuration file at `conf/application.conf`.
 
 Minimally, the content should include:
 
@@ -117,8 +117,6 @@ include "backdoor.conf"  // include Backdoor's base configuration
 
 // The module classpath that defines permissions, computed columns, and webhooks; it's the one we specified earlier.
 play.modules.enabled += "exampleproject.Module"  
-
-play.evolutions.autoApply=true
 
 // The database that Backdoor uses for managing its internal states.
 slick.dbs.default.db.properties.url="postgres://backdoor_example_project_dev_user:dev@localhost:5432/backdoor_example_project_dev"  
@@ -162,6 +160,6 @@ Contibution
 2. Ensure the version in `sbt-backdoor/src/main/givers/backdoor/sbtplugin/Backdoor.scala` is correct.
 2. Run tests with `sbt test`
 3. Publish with `sbt publish`
-4. Verify that the artifact is published correctly at https://bintray.com/givers/maven/backdoor
+4. Verify that the artifact is published correctly at https://bintray.com/givers/maven/sbt-backdoor and https://bintray.com/givers/maven/framework-backdoor
 
 To publish locally, please use `sbt publishM2` (instead of `sbt publishLocal`).
