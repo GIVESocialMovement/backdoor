@@ -11,6 +11,6 @@ To run locally:
 
 Webhook is fired to: https://webhook.site/#/d46b3671-555a-4aa2-97b0-4aaff91ec115
 
-Deploy to Heroku with: `git push heroku `git subtree split --prefix example-project`:master -f` (run from the root folder)
+Deploy to Heroku with: ```git push heroku `git subtree split --prefix example-project`:master -f``` (run from the root folder)
 
 The heroku app is at: https://backdoor-test.herokuapp.com
