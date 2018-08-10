@@ -6,8 +6,8 @@ import slick.jdbc.PostgresProfile.api._
 
 
 object User {
-  val COOKIE_KEY_ID = "userId"
-  val COOKIE_KEY_SECRET = "secret"
+  val COOKIE_KEY_ID = "BackdoorUserId"
+  val COOKIE_KEY_SECRET = "BackdoorSecret"
 }
 
 case class User(
