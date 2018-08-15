@@ -15,7 +15,7 @@ Backdoor is currently used at [GIVE.asia](https://give.asia) and only supports P
 
 If you are using Backdoor, please star our repo to let newcomers know that they can trust our application. Backdoor is a database tool; trust and security are the most important aspects. Thank you!
 
-Demo: https://backdoor-test.herokuapp.com
+Demo: https://backdoor-test.herokuapp.com (Username: backdoor.test.user@gmail.com, Password: Test#123)
 
 
 Motivation
