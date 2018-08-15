@@ -1,8 +1,8 @@
 Backdoor
 =================
 
-[![CircleCI](https://circleci.com/gh/GIVESocialMovement/backdoor.svg?style=svg&circle-token=5a6a8be56d280b635d32252c95eed90a5f87a44e)](https://circleci.com/gh/GIVESocialMovement/backdoor)
-[![codecov](https://codecov.io/gh/GIVESocialMovement/backdoor/branch/master/graph/badge.svg?token=DmQ8nPCjKF)](https://codecov.io/gh/GIVESocialMovement/backdoor)
+[![CircleCI](https://circleci.com/gh/GIVESocialMovement/backdoor.svg?style=svg)](https://circleci.com/gh/GIVESocialMovement/backdoor)
+[![codecov](https://codecov.io/gh/GIVESocialMovement/backdoor/branch/master/graph/badge.svg?token=BonrHjq1rt)](https://codecov.io/gh/GIVESocialMovement/backdoor)
 
 Backdoor is a database modification tool for team. Here are its highlights:
 
