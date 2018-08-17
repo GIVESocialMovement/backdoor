@@ -13,7 +13,7 @@ object Backdoor extends AutoPlugin {
     ),
     Keys.libraryDependencies ++= Seq(
       PlayImport.guice,
-      "givers.backdoor" %% "framework-backdoor" % "0.2.1"
+      "givers.backdoor" %% "framework-backdoor" % "0.2.2"
     ),
     PlayKeys.playDefaultPort := 8000
   )

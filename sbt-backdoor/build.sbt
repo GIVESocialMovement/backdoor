@@ -1,6 +1,6 @@
 name := "sbt-backdoor"
 organization := "givers.backdoor"
-version := "0.2.1"
+version := "0.2.2"
 
 sbtPlugin := true
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.16")

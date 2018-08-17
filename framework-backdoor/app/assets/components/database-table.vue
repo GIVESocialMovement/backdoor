@@ -36,7 +36,7 @@
           <i class="fas fa-ban database-table__table__cell__edit-disabled" v-else title="You are not allowed to edit this value"></i>
           <i v-if="field.value === undefined || field.value === null" class="database-table__table__cell__special">NULL</i>
           <i v-else-if="field.value === ''" class="database-table__table__cell__special">Empty-string</i>
-          <span v-else class="database-table__table__cell__content" v-html="formatValue(field)"></span>
+          <span v-else class="database-table__table__cell__content" v-html="field.renderedValue"></span>
         </td>
       </tr>
     </table>
@@ -178,15 +178,6 @@
       },
       canEdit: function(field) {
         return this.columnByName[field.column.name] && this.columnByName[field.column.name].canEdit;
-      },
-      formatValue: function(field) {
-        let content = '' + field.renderedValue;
-
-        if (content.length > 100) {
-          return content.substring(0, 100) + '...';
-        } else {
-          return content;
-        }
       },
       submit: function() {
         this.loading = true;
