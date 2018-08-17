@@ -34,6 +34,14 @@ object BaseField {
     e.printStackTrace()
     throw new Exception(s"Unable to parse '$value' for the column '${column.name}' (type=${column.dataType})", e)
   }
+
+  def preview(s: String): String = {
+    if (s.length > 100) {
+      s"${s.take(100)}..."
+    } else {
+      s
+    }
+  }
 }
 
 sealed abstract class Value {
@@ -151,7 +159,7 @@ case class LongValue(value: Long) extends Value {
 case class StringValue(value: String) extends Value {
   def toJson = Json.toJson(value)
   def editableValue = value.toString
-  def render = xml.Utility.escape(value.toString)
+  def render = xml.Utility.escape(BaseField.preview(value.toString))
   def toSql = sql"$value"
 }
 
@@ -172,7 +180,7 @@ case class TimestampValue(value: Timestamp) extends Value {
 case class UrlValue(url: String) extends Value {
   def toJson = Json.toJson(url)
   def editableValue = url.toString
-  def render = s"""<a href="$url">${xml.Utility.escape(url)}</a>"""
+  def render = s"""<a href="$url">${xml.Utility.escape(BaseField.preview(url))}</a>"""
   def toSql = throw new NotImplementedError()
 }
 
